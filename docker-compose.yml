@@ -1,0 +1,9 @@
+version: '3.12'
+
+services:
+  bot:
+    image:
+      lottery-bot:latest
+    build: .
+    command: sh -c "python main.py"
+    restart: "always"
