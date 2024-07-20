@@ -24,9 +24,8 @@ async def edit_text(message: Message):
         settings = Settings.get()
         new_text = message.text.split()
         if len(new_text) == 1:
-            return await message.answer('❌ Введите комманду в формате: /edit_text *новый текст*',
-                                        parse_mode='HTML')
-        settings.text = ' '.join(new_text[1:])
+            return await message.answer('❌ Введите комманду в формате: /edit_text *новый текст*')
+        settings.text = message.text[10:]
         settings.save()
         await message.answer('✅ Успешно!')
         await message.answer(settings.text)
