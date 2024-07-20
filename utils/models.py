@@ -15,3 +15,10 @@ class Lottery(Model):
 
     class Meta:
         database = db
+
+
+class Settings(Model):
+    text = TextField(default='text')
+
+    class Meta:
+        database = db

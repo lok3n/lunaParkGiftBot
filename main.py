@@ -6,8 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from handlers.click import click_router
 from handlers.send_message import start_lottery
 from handlers.admin import admin_router
-from utils.models import Lottery
-from template_message import MESSAGE
+from utils.models import Lottery, Settings
 
 
 load_dotenv()
@@ -18,8 +17,12 @@ dp.include_routers(click_router, admin_router)
 
 async def main():
     Lottery.create_table()
+    Settings.create_table()
+    Settings.get_or_create()
+
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(start_lottery, 'cron', hour=10, kwargs={'bot': bot, 'text': MESSAGE})
+    settings = Settings.get()
+    scheduler.add_job(start_lottery, 'cron', hour=10, kwargs={'bot': bot, 'text': settings.text})
     scheduler.start()
     print('started')
     await bot.set_my_description(f'ℹ Привет! Я бот-помощник для проведения розыгрышей')
